@@ -133,6 +133,7 @@ message RestoreFileRequest {
     repeated IdPair table_ids = 5;
     repeated IdPair index_ids = 6;
     uint64 restore_ts = 7;
+    bytes uuid = 8;
 }
 
 message RestoreFileResponse {
