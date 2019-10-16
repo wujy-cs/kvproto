@@ -3,6 +3,7 @@ package cdcpb;
 
 import "raft_cmdpb.proto";
 import "metapb.proto";
+import "errorpb.proto";
 
 import "gogoproto/gogo.proto";
 import "rustproto.proto";
@@ -51,7 +52,9 @@ message Event {
     }
 
     message Error {
-        // More fields ...
+        errorpb.NotLeader not_leader = 1;
+        errorpb.RegionNotFound region_not_found = 2;
+        errorpb.EpochNotMatch epoch_not_match = 3;
     }
 
     uint64 region_id = 1;
@@ -60,7 +63,7 @@ message Event {
         Entries entries = 3;
         Admin admin = 4;
         Error error = 5;
-        uint64 hearbeat_ts = 6;
+        uint64 resolved_ts = 6;
         // More region level events ...
     }
 }
