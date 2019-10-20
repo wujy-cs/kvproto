@@ -31,7 +31,7 @@ var _ = math.Inf
 const _ = proto.ProtoPackageIsVersion2 // please upgrade the proto package
 
 // [start, end)
-type KeyRange struct {
+type KeyRangeV1 struct {
 	Start                []byte   `protobuf:"bytes,1,opt,name=start,proto3" json:"start,omitempty"`
 	End                  []byte   `protobuf:"bytes,2,opt,name=end,proto3" json:"end,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -39,18 +39,18 @@ type KeyRange struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *KeyRange) Reset()         { *m = KeyRange{} }
-func (m *KeyRange) String() string { return proto.CompactTextString(m) }
-func (*KeyRange) ProtoMessage()    {}
-func (*KeyRange) Descriptor() ([]byte, []int) {
-	return fileDescriptor_coprocessor_4f845dab5997d199, []int{0}
+func (m *KeyRangeV1) Reset()         { *m = KeyRangeV1{} }
+func (m *KeyRangeV1) String() string { return proto.CompactTextString(m) }
+func (*KeyRangeV1) ProtoMessage()    {}
+func (*KeyRangeV1) Descriptor() ([]byte, []int) {
+	return fileDescriptor_coprocessor_3afb6922690ac910, []int{0}
 }
-func (m *KeyRange) XXX_Unmarshal(b []byte) error {
+func (m *KeyRangeV1) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *KeyRange) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *KeyRangeV1) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_KeyRange.Marshal(b, m, deterministic)
+		return xxx_messageInfo_KeyRangeV1.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalTo(b)
@@ -60,28 +60,92 @@ func (m *KeyRange) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-func (dst *KeyRange) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_KeyRange.Merge(dst, src)
+func (dst *KeyRangeV1) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_KeyRangeV1.Merge(dst, src)
 }
-func (m *KeyRange) XXX_Size() int {
+func (m *KeyRangeV1) XXX_Size() int {
 	return m.Size()
 }
-func (m *KeyRange) XXX_DiscardUnknown() {
-	xxx_messageInfo_KeyRange.DiscardUnknown(m)
+func (m *KeyRangeV1) XXX_DiscardUnknown() {
+	xxx_messageInfo_KeyRangeV1.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_KeyRange proto.InternalMessageInfo
+var xxx_messageInfo_KeyRangeV1 proto.InternalMessageInfo
 
-func (m *KeyRange) GetStart() []byte {
+func (m *KeyRangeV1) GetStart() []byte {
 	if m != nil {
 		return m.Start
 	}
 	return nil
 }
 
-func (m *KeyRange) GetEnd() []byte {
+func (m *KeyRangeV1) GetEnd() []byte {
 	if m != nil {
 		return m.End
+	}
+	return nil
+}
+
+// [start, end)
+type KeyRangeV2 struct {
+	IsPointRange         bool     `protobuf:"varint,1,opt,name=is_point_range,json=isPointRange,proto3" json:"is_point_range,omitempty"`
+	LowerInc             []byte   `protobuf:"bytes,2,opt,name=lower_inc,json=lowerInc,proto3" json:"lower_inc,omitempty"`
+	HigherExc            []byte   `protobuf:"bytes,3,opt,name=higher_exc,json=higherExc,proto3" json:"higher_exc,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *KeyRangeV2) Reset()         { *m = KeyRangeV2{} }
+func (m *KeyRangeV2) String() string { return proto.CompactTextString(m) }
+func (*KeyRangeV2) ProtoMessage()    {}
+func (*KeyRangeV2) Descriptor() ([]byte, []int) {
+	return fileDescriptor_coprocessor_3afb6922690ac910, []int{1}
+}
+func (m *KeyRangeV2) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *KeyRangeV2) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_KeyRangeV2.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalTo(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (dst *KeyRangeV2) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_KeyRangeV2.Merge(dst, src)
+}
+func (m *KeyRangeV2) XXX_Size() int {
+	return m.Size()
+}
+func (m *KeyRangeV2) XXX_DiscardUnknown() {
+	xxx_messageInfo_KeyRangeV2.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_KeyRangeV2 proto.InternalMessageInfo
+
+func (m *KeyRangeV2) GetIsPointRange() bool {
+	if m != nil {
+		return m.IsPointRange
+	}
+	return false
+}
+
+func (m *KeyRangeV2) GetLowerInc() []byte {
+	if m != nil {
+		return m.LowerInc
+	}
+	return nil
+}
+
+func (m *KeyRangeV2) GetHigherExc() []byte {
+	if m != nil {
+		return m.HigherExc
 	}
 	return nil
 }
@@ -90,7 +154,7 @@ type Request struct {
 	Context              *kvrpcpb.Context `protobuf:"bytes,1,opt,name=context" json:"context,omitempty"`
 	Tp                   int64            `protobuf:"varint,2,opt,name=tp,proto3" json:"tp,omitempty"`
 	Data                 []byte           `protobuf:"bytes,3,opt,name=data,proto3" json:"data,omitempty"`
-	Ranges               []*KeyRange      `protobuf:"bytes,4,rep,name=ranges" json:"ranges,omitempty"`
+	Ranges               []*KeyRangeV2    `protobuf:"bytes,4,rep,name=ranges" json:"ranges,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}         `json:"-"`
 	XXX_unrecognized     []byte           `json:"-"`
 	XXX_sizecache        int32            `json:"-"`
@@ -100,7 +164,7 @@ func (m *Request) Reset()         { *m = Request{} }
 func (m *Request) String() string { return proto.CompactTextString(m) }
 func (*Request) ProtoMessage()    {}
 func (*Request) Descriptor() ([]byte, []int) {
-	return fileDescriptor_coprocessor_4f845dab5997d199, []int{1}
+	return fileDescriptor_coprocessor_3afb6922690ac910, []int{2}
 }
 func (m *Request) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -150,7 +214,7 @@ func (m *Request) GetData() []byte {
 	return nil
 }
 
-func (m *Request) GetRanges() []*KeyRange {
+func (m *Request) GetRanges() []*KeyRangeV2 {
 	if m != nil {
 		return m.Ranges
 	}
@@ -162,7 +226,7 @@ type Response struct {
 	RegionError          *errorpb.Error                                         `protobuf:"bytes,2,opt,name=region_error,json=regionError" json:"region_error,omitempty"`
 	Locked               *kvrpcpb.LockInfo                                      `protobuf:"bytes,3,opt,name=locked" json:"locked,omitempty"`
 	OtherError           string                                                 `protobuf:"bytes,4,opt,name=other_error,json=otherError,proto3" json:"other_error,omitempty"`
-	Range                *KeyRange                                              `protobuf:"bytes,5,opt,name=range" json:"range,omitempty"`
+	Range                *KeyRangeV1                                            `protobuf:"bytes,5,opt,name=range" json:"range,omitempty"`
 	ExecDetails          *kvrpcpb.ExecDetails                                   `protobuf:"bytes,6,opt,name=exec_details,json=execDetails" json:"exec_details,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}                                               `json:"-"`
 	XXX_unrecognized     []byte                                                 `json:"-"`
@@ -173,7 +237,7 @@ func (m *Response) Reset()         { *m = Response{} }
 func (m *Response) String() string { return proto.CompactTextString(m) }
 func (*Response) ProtoMessage()    {}
 func (*Response) Descriptor() ([]byte, []int) {
-	return fileDescriptor_coprocessor_4f845dab5997d199, []int{2}
+	return fileDescriptor_coprocessor_3afb6922690ac910, []int{3}
 }
 func (m *Response) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -223,7 +287,7 @@ func (m *Response) GetOtherError() string {
 	return ""
 }
 
-func (m *Response) GetRange() *KeyRange {
+func (m *Response) GetRange() *KeyRangeV1 {
 	if m != nil {
 		return m.Range
 	}
@@ -238,11 +302,12 @@ func (m *Response) GetExecDetails() *kvrpcpb.ExecDetails {
 }
 
 func init() {
-	proto.RegisterType((*KeyRange)(nil), "coprocessor.KeyRange")
+	proto.RegisterType((*KeyRangeV1)(nil), "coprocessor.KeyRangeV1")
+	proto.RegisterType((*KeyRangeV2)(nil), "coprocessor.KeyRangeV2")
 	proto.RegisterType((*Request)(nil), "coprocessor.Request")
 	proto.RegisterType((*Response)(nil), "coprocessor.Response")
 }
-func (m *KeyRange) Marshal() (dAtA []byte, err error) {
+func (m *KeyRangeV1) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalTo(dAtA)
@@ -252,7 +317,7 @@ func (m *KeyRange) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *KeyRange) MarshalTo(dAtA []byte) (int, error) {
+func (m *KeyRangeV1) MarshalTo(dAtA []byte) (int, error) {
 	var i int
 	_ = i
 	var l int
@@ -268,6 +333,49 @@ func (m *KeyRange) MarshalTo(dAtA []byte) (int, error) {
 		i++
 		i = encodeVarintCoprocessor(dAtA, i, uint64(len(m.End)))
 		i += copy(dAtA[i:], m.End)
+	}
+	if m.XXX_unrecognized != nil {
+		i += copy(dAtA[i:], m.XXX_unrecognized)
+	}
+	return i, nil
+}
+
+func (m *KeyRangeV2) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalTo(dAtA)
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *KeyRangeV2) MarshalTo(dAtA []byte) (int, error) {
+	var i int
+	_ = i
+	var l int
+	_ = l
+	if m.IsPointRange {
+		dAtA[i] = 0x8
+		i++
+		if m.IsPointRange {
+			dAtA[i] = 1
+		} else {
+			dAtA[i] = 0
+		}
+		i++
+	}
+	if len(m.LowerInc) > 0 {
+		dAtA[i] = 0x12
+		i++
+		i = encodeVarintCoprocessor(dAtA, i, uint64(len(m.LowerInc)))
+		i += copy(dAtA[i:], m.LowerInc)
+	}
+	if len(m.HigherExc) > 0 {
+		dAtA[i] = 0x1a
+		i++
+		i = encodeVarintCoprocessor(dAtA, i, uint64(len(m.HigherExc)))
+		i += copy(dAtA[i:], m.HigherExc)
 	}
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
@@ -413,7 +521,7 @@ func encodeVarintCoprocessor(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return offset + 1
 }
-func (m *KeyRange) Size() (n int) {
+func (m *KeyRangeV1) Size() (n int) {
 	var l int
 	_ = l
 	l = len(m.Start)
@@ -421,6 +529,26 @@ func (m *KeyRange) Size() (n int) {
 		n += 1 + l + sovCoprocessor(uint64(l))
 	}
 	l = len(m.End)
+	if l > 0 {
+		n += 1 + l + sovCoprocessor(uint64(l))
+	}
+	if m.XXX_unrecognized != nil {
+		n += len(m.XXX_unrecognized)
+	}
+	return n
+}
+
+func (m *KeyRangeV2) Size() (n int) {
+	var l int
+	_ = l
+	if m.IsPointRange {
+		n += 2
+	}
+	l = len(m.LowerInc)
+	if l > 0 {
+		n += 1 + l + sovCoprocessor(uint64(l))
+	}
+	l = len(m.HigherExc)
 	if l > 0 {
 		n += 1 + l + sovCoprocessor(uint64(l))
 	}
@@ -500,7 +628,7 @@ func sovCoprocessor(x uint64) (n int) {
 func sozCoprocessor(x uint64) (n int) {
 	return sovCoprocessor(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *KeyRange) Unmarshal(dAtA []byte) error {
+func (m *KeyRangeV1) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -523,10 +651,10 @@ func (m *KeyRange) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: KeyRange: wiretype end group for non-group")
+			return fmt.Errorf("proto: KeyRangeV1: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: KeyRange: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: KeyRangeV1: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		case 1:
@@ -589,6 +717,139 @@ func (m *KeyRange) Unmarshal(dAtA []byte) error {
 			m.End = append(m.End[:0], dAtA[iNdEx:postIndex]...)
 			if m.End == nil {
 				m.End = []byte{}
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipCoprocessor(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if skippy < 0 {
+				return ErrInvalidLengthCoprocessor
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.XXX_unrecognized = append(m.XXX_unrecognized, dAtA[iNdEx:iNdEx+skippy]...)
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *KeyRangeV2) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowCoprocessor
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= (uint64(b) & 0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: KeyRangeV2: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: KeyRangeV2: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field IsPointRange", wireType)
+			}
+			var v int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCoprocessor
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				v |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			m.IsPointRange = bool(v != 0)
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field LowerInc", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCoprocessor
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthCoprocessor
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.LowerInc = append(m.LowerInc[:0], dAtA[iNdEx:postIndex]...)
+			if m.LowerInc == nil {
+				m.LowerInc = []byte{}
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field HigherExc", wireType)
+			}
+			var byteLen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowCoprocessor
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				byteLen |= (int(b) & 0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if byteLen < 0 {
+				return ErrInvalidLengthCoprocessor
+			}
+			postIndex := iNdEx + byteLen
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.HigherExc = append(m.HigherExc[:0], dAtA[iNdEx:postIndex]...)
+			if m.HigherExc == nil {
+				m.HigherExc = []byte{}
 			}
 			iNdEx = postIndex
 		default:
@@ -751,7 +1012,7 @@ func (m *Request) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Ranges = append(m.Ranges, &KeyRange{})
+			m.Ranges = append(m.Ranges, &KeyRangeV2{})
 			if err := m.Ranges[len(m.Ranges)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
@@ -959,7 +1220,7 @@ func (m *Response) Unmarshal(dAtA []byte) error {
 				return io.ErrUnexpectedEOF
 			}
 			if m.Range == nil {
-				m.Range = &KeyRange{}
+				m.Range = &KeyRangeV1{}
 			}
 			if err := m.Range.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
@@ -1125,36 +1386,40 @@ var (
 	ErrIntOverflowCoprocessor   = fmt.Errorf("proto: integer overflow")
 )
 
-func init() { proto.RegisterFile("coprocessor.proto", fileDescriptor_coprocessor_4f845dab5997d199) }
+func init() { proto.RegisterFile("coprocessor.proto", fileDescriptor_coprocessor_3afb6922690ac910) }
 
-var fileDescriptor_coprocessor_4f845dab5997d199 = []byte{
-	// 436 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x50, 0xbb, 0x6e, 0x13, 0x41,
-	0x14, 0xcd, 0xfa, 0x15, 0x73, 0xd7, 0x09, 0xce, 0xc8, 0x48, 0xab, 0x14, 0xb6, 0xe5, 0x02, 0x19,
-	0x10, 0x6b, 0x61, 0x24, 0xe8, 0x28, 0x0c, 0x29, 0x10, 0x54, 0xc3, 0x07, 0x44, 0xeb, 0xd9, 0xcb,
-	0x7a, 0xb5, 0x61, 0xef, 0x30, 0x33, 0xb6, 0x9c, 0x3f, 0xe0, 0x13, 0xf8, 0x04, 0xfe, 0x83, 0x26,
-	0x25, 0x25, 0xa2, 0x88, 0x90, 0xf9, 0x11, 0xb4, 0x77, 0xd6, 0x26, 0x0d, 0xd5, 0x9c, 0x7b, 0xe6,
-	0xcc, 0x99, 0x73, 0x0f, 0x9c, 0x29, 0xd2, 0x86, 0x14, 0x5a, 0x4b, 0x26, 0xd6, 0x86, 0x1c, 0x89,
-	0xf0, 0x0e, 0x75, 0x7e, 0x82, 0xc6, 0x90, 0xd1, 0x4b, 0x7f, 0x77, 0x7e, 0x52, 0x6c, 0x8c, 0x56,
-	0x87, 0x71, 0x90, 0x51, 0x46, 0x0c, 0x67, 0x15, 0xaa, 0xd9, 0xfb, 0x66, 0x6d, 0x1d, 0x43, 0x4f,
-	0x4c, 0xe6, 0xd0, 0x7d, 0x87, 0xd7, 0x32, 0x29, 0x33, 0x14, 0x03, 0x68, 0x5b, 0x97, 0x18, 0x17,
-	0x05, 0xe3, 0x60, 0xda, 0x93, 0x7e, 0x10, 0x7d, 0x68, 0x62, 0x99, 0x46, 0x0d, 0xe6, 0x2a, 0x38,
-	0xf9, 0x12, 0xc0, 0xb1, 0xc4, 0xcf, 0x6b, 0xb4, 0x4e, 0x3c, 0x86, 0x63, 0x45, 0xa5, 0xc3, 0xad,
-	0x7f, 0x15, 0xce, 0xfb, 0xf1, 0x3e, 0xc7, 0x6b, 0xcf, 0xcb, 0xbd, 0x40, 0x9c, 0x42, 0xc3, 0x69,
-	0x36, 0x6a, 0xca, 0x86, 0xd3, 0x42, 0x40, 0x2b, 0x4d, 0x5c, 0x12, 0x35, 0xd9, 0x9a, 0xb1, 0x78,
-	0x0a, 0x1d, 0x53, 0x85, 0xb1, 0x51, 0x6b, 0xdc, 0x9c, 0x86, 0xf3, 0x07, 0xf1, 0xdd, 0x16, 0xf6,
-	0x51, 0x65, 0x2d, 0x9a, 0x7c, 0x6f, 0x40, 0x57, 0xa2, 0xd5, 0x54, 0x5a, 0x14, 0xb2, 0xf6, 0xe3,
-	0xf8, 0x8b, 0x57, 0x37, 0xb7, 0xa3, 0xa3, 0x5f, 0xb7, 0xa3, 0x17, 0x59, 0xee, 0x56, 0xeb, 0x65,
-	0xac, 0xe8, 0xd3, 0x4c, 0xe7, 0x65, 0xa6, 0x12, 0x3d, 0x2b, 0x36, 0xbe, 0x19, 0x5d, 0x64, 0x33,
-	0xbb, 0x4a, 0x0c, 0xa6, 0xcb, 0x6b, 0x87, 0x36, 0xfe, 0xc0, 0x78, 0x51, 0xe1, 0x3a, 0xcf, 0x33,
-	0xe8, 0x19, 0xcc, 0x72, 0x2a, 0x2f, 0xb9, 0x6d, 0x4e, 0x1f, 0xce, 0x4f, 0xe3, 0x7d, 0xf7, 0x17,
-	0xd5, 0x29, 0x43, 0xaf, 0xe1, 0x41, 0x3c, 0x82, 0xce, 0x15, 0xa9, 0x02, 0x53, 0x5e, 0x2c, 0x9c,
-	0x9f, 0x1d, 0x1a, 0x79, 0x4f, 0xaa, 0x78, 0x5b, 0x7e, 0x24, 0x59, 0x0b, 0xc4, 0x08, 0x42, 0x72,
-	0x2b, 0x34, 0xb5, 0x79, 0x6b, 0x1c, 0x4c, 0xef, 0x49, 0x60, 0xca, 0x7b, 0x3d, 0x81, 0x36, 0x6f,
-	0x1a, 0xb5, 0xd9, 0xea, 0x3f, 0x6d, 0x78, 0x8d, 0x78, 0x09, 0x3d, 0xdc, 0xa2, 0xba, 0x4c, 0xd1,
-	0x25, 0xf9, 0x95, 0x8d, 0x3a, 0xfc, 0x66, 0x70, 0xf8, 0xfe, 0x62, 0x8b, 0xea, 0x8d, 0xbf, 0x93,
-	0x21, 0xfe, 0x1b, 0x16, 0x0f, 0x7f, 0x7e, 0xeb, 0x06, 0x37, 0xbb, 0x61, 0xf0, 0x63, 0x37, 0x0c,
-	0x7e, 0xef, 0x86, 0xc1, 0xd7, 0x3f, 0xc3, 0x23, 0xe8, 0x93, 0xc9, 0x62, 0x97, 0x17, 0x9b, 0xb8,
-	0xae, 0x6b, 0xd9, 0xe1, 0xe3, 0xf9, 0xdf, 0x00, 0x00, 0x00, 0xff, 0xff, 0xaf, 0xd1, 0x8a, 0x03,
-	0x9a, 0x02, 0x00, 0x00,
+var fileDescriptor_coprocessor_3afb6922690ac910 = []byte{
+	// 499 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x51, 0xc1, 0x8e, 0x12, 0x41,
+	0x10, 0xdd, 0x81, 0x5d, 0x16, 0x6a, 0x58, 0x64, 0x3b, 0x24, 0x92, 0x35, 0x02, 0x21, 0xc6, 0xa0,
+	0x89, 0x43, 0x40, 0xa3, 0x37, 0x0f, 0x28, 0x87, 0x8d, 0x1e, 0x4c, 0x9b, 0x78, 0x9d, 0x0c, 0x4d,
+	0x39, 0x4c, 0x06, 0xa7, 0xdb, 0xee, 0x06, 0xd9, 0x5f, 0xf0, 0x0b, 0xfc, 0x04, 0x7f, 0xc4, 0x64,
+	0x8f, 0x1e, 0x8d, 0x87, 0x8d, 0xc1, 0x1f, 0x31, 0x53, 0x3d, 0xb0, 0x5c, 0x3c, 0xf5, 0xab, 0x57,
+	0xaf, 0xaa, 0xab, 0x5e, 0xc1, 0xb9, 0x90, 0x4a, 0x4b, 0x81, 0xc6, 0x48, 0x1d, 0x28, 0x2d, 0xad,
+	0x64, 0xfe, 0x01, 0x75, 0x71, 0x86, 0x5a, 0x4b, 0xad, 0x66, 0x2e, 0x77, 0x71, 0x96, 0xae, 0xb5,
+	0x12, 0xfb, 0xb0, 0x15, 0xcb, 0x58, 0x12, 0x1c, 0xe6, 0xa8, 0x60, 0xef, 0xe8, 0x95, 0xb1, 0x04,
+	0x1d, 0xd1, 0x7f, 0x06, 0xf0, 0x06, 0xaf, 0x78, 0x94, 0xc5, 0xf8, 0x61, 0xc4, 0x5a, 0x70, 0x62,
+	0x6c, 0xa4, 0x6d, 0xdb, 0xeb, 0x79, 0x83, 0x3a, 0x77, 0x01, 0x6b, 0x42, 0x19, 0xb3, 0x79, 0xbb,
+	0x44, 0x5c, 0x0e, 0xfb, 0xd9, 0x41, 0xd5, 0x98, 0x3d, 0x80, 0x46, 0x62, 0x42, 0x25, 0x93, 0xcc,
+	0x86, 0x3a, 0xe7, 0xa8, 0xbc, 0xca, 0xeb, 0x89, 0x79, 0x97, 0x93, 0xa4, 0x63, 0xf7, 0xa0, 0xb6,
+	0x94, 0x5f, 0x50, 0x87, 0x49, 0x26, 0x8a, 0x5e, 0x55, 0x22, 0x2e, 0x33, 0xc1, 0xee, 0x03, 0x2c,
+	0x92, 0x78, 0x81, 0x3a, 0xc4, 0x8d, 0x68, 0x97, 0x29, 0x5b, 0x73, 0xcc, 0x74, 0x23, 0xfa, 0x5f,
+	0x3d, 0x38, 0xe5, 0xf8, 0x79, 0x85, 0xc6, 0xb2, 0xc7, 0x70, 0x2a, 0x64, 0x66, 0x71, 0xe3, 0xa6,
+	0xf4, 0xc7, 0xcd, 0x60, 0xb7, 0xf9, 0x2b, 0xc7, 0xf3, 0x9d, 0x80, 0x35, 0xa0, 0x64, 0x15, 0x7d,
+	0x56, 0xe6, 0x25, 0xab, 0x18, 0x83, 0xe3, 0x79, 0x64, 0xa3, 0xe2, 0x03, 0xc2, 0x6c, 0x08, 0x15,
+	0x1a, 0xda, 0xb4, 0x8f, 0x7b, 0xe5, 0x81, 0x3f, 0xbe, 0x1b, 0x1c, 0xfa, 0x7e, 0xbb, 0x26, 0x2f,
+	0x64, 0xfd, 0x1f, 0x25, 0xa8, 0x72, 0x34, 0x4a, 0x66, 0x06, 0x19, 0x2f, 0x3a, 0x92, 0x61, 0x93,
+	0x97, 0xd7, 0x37, 0xdd, 0xa3, 0xdf, 0x37, 0xdd, 0xe7, 0x71, 0x62, 0x17, 0xab, 0x59, 0x20, 0xe4,
+	0xa7, 0xa1, 0x4a, 0xb2, 0x58, 0x44, 0x6a, 0x98, 0xae, 0xdd, 0x35, 0x54, 0x1a, 0x0f, 0xcd, 0x22,
+	0xd2, 0x38, 0x9f, 0x5d, 0x59, 0x34, 0xc1, 0x7b, 0xc2, 0x93, 0x1c, 0x17, 0x13, 0x8d, 0xa0, 0xae,
+	0x31, 0x4e, 0x64, 0x16, 0xd2, 0x85, 0x69, 0x7e, 0x7f, 0xdc, 0x08, 0x76, 0xf7, 0x9e, 0xe6, 0x2f,
+	0xf7, 0x9d, 0x86, 0x02, 0xf6, 0x08, 0x2a, 0x4b, 0x29, 0x52, 0x9c, 0xd3, 0x6a, 0xfe, 0xf8, 0x7c,
+	0xef, 0xc9, 0x5b, 0x29, 0xd2, 0xcb, 0xec, 0xa3, 0xe4, 0x85, 0x80, 0x75, 0xc1, 0x97, 0x96, 0x9c,
+	0xa6, 0xe6, 0xc7, 0x3d, 0x6f, 0x50, 0xe3, 0x40, 0x94, 0xeb, 0xf5, 0x04, 0x4e, 0xdc, 0x15, 0x4f,
+	0xa8, 0xd5, 0x7f, 0xfc, 0x18, 0x71, 0xa7, 0x62, 0x2f, 0xa0, 0x8e, 0x1b, 0x14, 0xe1, 0x1c, 0x6d,
+	0x94, 0x2c, 0x4d, 0xbb, 0x42, 0x55, 0xad, 0xfd, 0x00, 0xd3, 0x0d, 0x8a, 0xd7, 0x2e, 0xc7, 0x7d,
+	0xbc, 0x0d, 0x26, 0x0f, 0x7f, 0x7d, 0xaf, 0x7a, 0xd7, 0xdb, 0x8e, 0xf7, 0x73, 0xdb, 0xf1, 0xfe,
+	0x6c, 0x3b, 0xde, 0xb7, 0xbf, 0x9d, 0x23, 0x68, 0x4a, 0x1d, 0x07, 0x36, 0x49, 0xd7, 0x41, 0x61,
+	0xd8, 0xac, 0x42, 0xcf, 0xd3, 0x7f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x5d, 0xc0, 0xd3, 0xf0, 0x10,
+	0x03, 0x00, 0x00,
 }
