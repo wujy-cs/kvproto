@@ -25,6 +25,8 @@ message Event {
         PREWRITE = 1;
         COMMIT = 2;
         ROLLBACK = 3;
+        COMMITTED = 4;
+        INITIALIZED = 5;
     }
 
     message Row {
