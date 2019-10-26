@@ -159,6 +159,12 @@ message TransferLeaderRequest {
     metapb.Peer peer = 1;
 }
 
+message CompactRegionRequest {
+    int32 level = 1;
+}
+
+message WarmupRegionRequest {}
+
 message TransferLeaderResponse {}
 
 message VerifyHashRequest {
@@ -202,6 +208,8 @@ enum AdminCmdType {
     CommitMerge = 8;
     RollbackMerge = 9;
     BatchSplit = 10;
+    CompactRegion = 11;
+    WarmupRegion = 12;
 }
 
 message AdminRequest {
@@ -215,6 +223,8 @@ message AdminRequest {
     CommitMergeRequest commit_merge = 8;
     RollbackMergeRequest rollback_merge = 9;
     BatchSplitRequest splits = 10;
+    CompactRegionRequest compact_region = 11;
+    WarmupRegionRequest warmup_region = 12;
 }
 
 message AdminResponse {
