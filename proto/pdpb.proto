@@ -314,6 +314,15 @@ message SplitRegion {
     repeated bytes keys = 2;
 }
 
+message CompactRegion {
+    int32 level = 1;
+    repeated bytes keys = 2;
+}
+
+message WarmupRegion {
+    repeated bytes keys = 1;
+}
+
 enum CheckPolicy {
     SCAN = 0;
     APPROXIMATE = 1;
@@ -348,6 +357,8 @@ message RegionHeartbeatResponse {
     Merge merge = 7;
     // PD sends split_region to let TiKV split a region into two regions.
     SplitRegion split_region = 8;
+    CompactRegion compact_region = 9;
+    WarmupRegion warmup_region = 10;
 }
 
 message AskSplitRequest {
